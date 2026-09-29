@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In · Horizon</title>
+  <!-- Google Font for a clean, modern look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- reset & base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f6f9fc 0%, #e9f2f9 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      margin: 0;
+      line-height: 1.5;
+      color: #1a2b3e;
+    }
+
+    /* ----- login card ----- */
+    .login-card {
+      background-color: #ffffff;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 20, 40, 0.25), 0 8px 20px -8px rgba(0, 20, 30, 0.15);
+      padding: 2.5rem 2.5rem 2.8rem;
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(2px);
+    }
+
+    /* ----- header ----- */
+    .login-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .login-header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0b2a41;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .login-header h1 i {
+      color: #2d7a9b;
+      font-size: 1.7rem;
+    }
+
+    .login-header p {
+      font-size: 0.95rem;
+      color: #5e7a94;
+      font-weight: 400;
+      border-bottom: 1px solid #dbe7f0;
+      padding-bottom: 1.25rem;
+      max-width: 85%;
+      margin: 0 auto;
+    }
+
+    /* ----- form fields ----- */
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .field-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: #1e3e5c;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .field-group label i {
+      font-size: 0.85rem;
+      color: #3d7e9e;
+      width: 1rem;
+      text-align: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i.field-icon {
+      position: absolute;
+      left: 1rem;
+      color: #7a9bb5;
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.15s;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.85rem 2.8rem 0.85rem 2.6rem;  /* extra right padding for eye icon */
+      border: 1.5px solid #d3e2ee;
+      border-radius: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      background-color: #fbfdff;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.15s;
+      color: #0b2a41;
+      font-weight: 400;
+      outline: none;
+    }
+
+    .input-wrapper input:hover {
+      border-color: #b0cbdf;
+      background-color: #ffffff;
+    }
+
+    .input-wrapper input:focus {
+      border-color: #2d7a9b;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(45, 122, 155, 0.12);
+    }
+
+    .input-wrapper:focus-within i.field-icon {
+      color: #1b5e7a;
+    }
+
+    ::placeholder {
+      color: #9bb5ca;
+      font-weight: 400;
+      font-size: 0.9rem;
+      opacity: 1;
+    }
+
+    /* password show/hide toggle */
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #7a9bb5;
+      font-size: 0.95rem;
+      padding: 0.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+      outline: none;
+    }
+
+    .toggle-password:hover {
+      color: #1b5e7a;
+    }
+
+    /* ----- row with remember me & forgot password ----- */
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #2b4b66;
+      font-weight: 400;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: #1c5e7a;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 0;
+    }
+
+    .forgot-link {
+      color: #1c5e7a;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.85rem;
+      transition: color 0.2s, border-color 0.2s;
+      border-bottom: 1.5px solid transparent;
+      padding-bottom: 1px;
+    }
+
+    .forgot-link:hover {
+      color: #0b3d52;
+      border-bottom-color: #1c5e7a;
+    }
+
+    /* ----- login button ----- */
+    .login-btn {
+      background: #1c5e7a;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      width: 100%;
+      margin-top: 0.6rem;
+      box-shadow: 0 8px 18px -6px rgba(27, 94, 122, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-btn i {
+      font-size: 1.05rem;
+      transition: transform 0.15s;
+    }
+
+    .login-btn:hover {
+      background: #13526b;
+      box-shadow: 0 12px 22px -8px rgba(27, 94, 122, 0.4);
+    }
+
+    .login-btn:hover i {
+      transform: translateX(3px);
+    }
+
+    .login-btn:active {
+      transform: scale(0.98);
+      background: #0e445a;
+    }
+
+    /* ----- signup link section ----- */
+    .signup-section {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #426b85;
+      border-top: 1px solid #dfeaf2;
+      padding-top: 1.6rem;
+    }
+
+    .signup-section a {
+      color: #1c5e7a;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+      padding-bottom: 2px;
+      margin-left: 0.2rem;
+    }
+
+    .signup-section a:hover {
+      color: #0b3d52;
+      border-bottom-color: #1c5e7a;
+    }
+
+    /* ----- responsive ----- */
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 1.8rem 1.5rem 2.2rem;
+        border-radius: 26px;
+      }
+
+      .login-header h1 {
+        font-size: 1.6rem;
+      }
+
+      .login-header p {
+        max-width: 100%;
+        font-size: 0.9rem;
+      }
+
+      .input-wrapper input {
+        padding: 0.8rem 2.6rem 0.8rem 2.5rem;
+        font-size: 0.9rem;
+      }
+
+      .input-wrapper i.field-icon {
+        left: 0.9rem;
+        font-size: 0.9rem;
+      }
+
+      .toggle-password {
+        right: 0.9rem;
+        font-size: 0.9rem;
+      }
+
+      .options-row {
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+
+      .login-btn {
+        padding: 0.95rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    /* subtle validation hint */
+    input:required:invalid:not(:placeholder-shown) {
+      border-color: #e0a3a3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-header">
+    <h1>
+      <i class="fas fa-arrow-right-to-bracket"></i>
+      Welcome back
+    </h1>
+    <p>Log in to your Horizon account</p>
+  </div>
+
+  <form id="loginForm" action="/submit/loginForm" method="post" novalidate>
+    <div class="form-fields">
+
+      <!-- Username field -->
+      <div class="field-group">
+        <label for="username"><i class="fas fa-user-tag"></i> Username</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user field-icon"></i>
+          <input type="text" id="username" name="userName" placeholder="your_username" autocomplete="username" required>
+        </div>
+      </div>
+
+      <!-- Email field -->
+      <div class="field-group">
+        <label for="email"><i class="fas fa-envelope"></i> Email id</label>
+        <div class="input-wrapper">
+          <i class="fas fa-envelope field-icon"></i>
+          <input type="email" id="email" name="emailId" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+      </div>
+
+      <!-- Password field with show/hide toggle -->
+      <div class="field-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-key field-icon"></i>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+          <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember me & forgot password -->
+      <div class="options-row">
+        <label class="remember-me">
+          <input type="checkbox" name="remember" checked>
+          Remember me
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <!-- Login button -->
+      <button type="submit" class="login-btn">
+        <i class="fas fa-arrow-right-to-bracket"></i> Log In
+      </button>
+    </div>
+
+    <!-- Sign up link -->
+    <div class="signup-section">
+      Don't have an account? <a href="/api/signup">Sign up</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  (function() {
+    // --- password show/hide toggle ---
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (toggleBtn && passwordInput && eyeIcon) {
+      toggleBtn.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        // switch icon
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+        // update aria-label
+        toggleBtn.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password');
+      });
+    }
+
+    // --- demo form submission prevention + simple validation ---
+    const form = document.getElementById('loginForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();  // prevent actual submission for demo
+
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        let missing = [];
+        if (!username) missing.push('Username');
+        if (!email) missing.push('Email id');
+        if (!password) missing.push('Password');
+
+        if (missing.length > 0) {
+          alert('Please fill in: ' + missing.join(', '));
+        } else {
+          // Simple email format check (very basic)
+          if (!/^\S+@\S+\.\S+$/.test(email)) {
+            alert('Please enter a valid email address.');
+            return;
+          }
+          alert('✨ Login demo — credentials look good! (No data is sent)');
+          // you could reset here if desired: form.reset();
+        }
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up · Horizon</title>
+  <!-- Google Font for a clean, modern look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) for subtle field icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- base & reset ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f6f9fc 0%, #e9f2f9 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      margin: 0;
+      line-height: 1.5;
+      color: #1a2b3e;
+    }
+
+    /* ----- main card ----- */
+    .signup-card {
+      background-color: #ffffff;
+      max-width: 720px;
+      width: 100%;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 20, 40, 0.25), 0 8px 20px -8px rgba(0, 20, 30, 0.15);
+      padding: 2.5rem 2.5rem 2.8rem;
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(2px);
+    }
+
+    /* ----- header / title ----- */
+    .signup-header {
+      margin-bottom: 2.2rem;
+      text-align: center;
+    }
+
+    .signup-header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0b2a41;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .signup-header h1 i {
+      color: #2d7a9b;
+      font-size: 1.8rem;
+    }
+
+    .signup-header p {
+      font-size: 0.95rem;
+      color: #5e7a94;
+      font-weight: 400;
+      border-bottom: 1px solid #dbe7f0;
+      padding-bottom: 1.25rem;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    /* ----- form grid (two columns on wider screens) ----- */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem 1.5rem;
+    }
+
+    /* full-width fields span both columns */
+    .full-width {
+      grid-column: span 2;
+    }
+
+    /* ----- field groups ----- */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .field-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: #1e3e5c;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .field-group label i {
+      font-size: 0.85rem;
+      color: #3d7e9e;
+      width: 1rem;
+      text-align: center;
+    }
+
+    /* input + icon wrapper */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 1rem;
+      color: #7a9bb5;
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.15s;
+    }
+
+    .input-wrapper input,
+    .input-wrapper textarea {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.6rem;
+      border: 1.5px solid #d3e2ee;
+      border-radius: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      background-color: #fbfdff;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.15s;
+      color: #0b2a41;
+      font-weight: 400;
+      resize: vertical;
+      outline: none;
+    }
+
+    /* textarea (address) specific */
+    .input-wrapper textarea {
+      min-height: 90px;
+      padding-top: 0.85rem;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    /* focus & hover states */
+    .input-wrapper input:hover,
+    .input-wrapper textarea:hover {
+      border-color: #b0cbdf;
+      background-color: #ffffff;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper textarea:focus {
+      border-color: #2d7a9b;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(45, 122, 155, 0.12);
+    }
+
+    .input-wrapper input:focus + i,   /* icon not sibling after input, but we use wrapper i */
+    .input-wrapper textarea:focus + i {
+      color: #1b5e7a;
+    }
+
+    /* better: change icon color when input inside wrapper is focused */
+    .input-wrapper:focus-within i {
+      color: #1b5e7a;
+    }
+
+    /* placeholder style */
+    ::placeholder {
+      color: #9bb5ca;
+      font-weight: 400;
+      font-size: 0.9rem;
+      opacity: 1;
+    }
+
+    /* ----- button & login link section ----- */
+    .actions {
+      margin-top: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.4rem;
+    }
+
+    .signup-btn {
+      background: #1c5e7a;
+      color: white;
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 8px 18px -6px rgba(27, 94, 122, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .signup-btn i {
+      font-size: 1.1rem;
+      transition: transform 0.15s;
+    }
+
+    .signup-btn:hover {
+      background: #13526b;
+      box-shadow: 0 12px 22px -8px rgba(27, 94, 122, 0.4);
+    }
+
+    .signup-btn:hover i {
+      transform: translateX(3px);
+    }
+
+    .signup-btn:active {
+      transform: scale(0.98);
+      background: #0e445a;
+    }
+
+    /* login link */
+    .login-link {
+      font-size: 0.95rem;
+      color: #426b85;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    .login-link a {
+      color: #1c5e7a;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+      padding-bottom: 2px;
+    }
+
+    .login-link a:hover {
+      color: #0b3d52;
+      border-bottom-color: #1c5e7a;
+    }
+
+    /* small note / legal optional */
+    .legal-note {
+      margin-top: 1.8rem;
+      font-size: 0.75rem;
+      color: #7f99af;
+      text-align: center;
+      border-top: 1px solid #dfeaf2;
+      padding-top: 1.4rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* ----- responsive: single column on mobile ----- */
+    @media (max-width: 580px) {
+      .signup-card {
+        padding: 1.8rem 1.5rem;
+        border-radius: 26px;
+      }
+
+      .signup-header h1 {
+        font-size: 1.7rem;
+      }
+
+      .signup-header p {
+        max-width: 100%;
+        font-size: 0.9rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .full-width {
+        grid-column: span 1;
+      }
+
+      .signup-btn {
+        padding: 0.95rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      .input-wrapper input,
+      .input-wrapper textarea {
+        padding: 0.8rem 0.9rem 0.8rem 2.5rem;
+        font-size: 0.9rem;
+      }
+
+      .input-wrapper i {
+        left: 0.9rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* subtle validation / required indication */
+    input:required:invalid:not(:placeholder-shown) {
+      border-color: #e0a3a3;
+    }
+
+    /* optional helper: tiny asterisk for required fields (not used but kept clean) */
+  </style>
+</head>
+<body>
+
+<div class="signup-card">
+  <div class="signup-header">
+    <h1>
+      <i class="fas fa-seedling"></i>
+      Create account
+    </h1>
+    <p>Join our community — it only takes a minute.</p>
+  </div>
+
+  <!-- Sign up form -->
+  <form id="signupForm" action="/submit/regForm" method="post" novalidate>
+    <div class="form-grid">
+      <!-- Full name (full width) -->
+      <div class="field-group full-width">
+        <label for="fullname"><i class="fas fa-user-circle"></i> Full name</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user"></i>
+          <input type="text" id="fullname" name="fullName" placeholder="e.g. Alex Morgan" autocomplete="name" required>
+        </div>
+      </div>
+
+      <!-- Username -->
+      <div class="field-group">
+        <label for="username"><i class="fas fa-at"></i> Username</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user-tag"></i>
+          <input type="text" id="username" name="userName" placeholder="alexm_88" autocomplete="username" required>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="field-group">
+        <label for="email"><i class="fas fa-envelope"></i> Email id</label>
+        <div class="input-wrapper">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" name="emailId" placeholder="alex@example.com" autocomplete="email" required>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-key"></i>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required>
+        </div>
+      </div>
+
+      <!-- Mobile number -->
+      <div class="field-group">
+        <label for="mobile"><i class="fas fa-mobile-alt"></i> Mobile number</label>
+        <div class="input-wrapper">
+          <i class="fas fa-phone-alt"></i>
+          <input type="tel" id="mobile" name="mobileNumber" placeholder="+1 987 654 3210" autocomplete="tel" required>
+        </div>
+      </div>
+
+      <!-- Address (full width) -->
+      <div class="field-group full-width">
+        <label for="address"><i class="fas fa-map-pin"></i> Address</label>
+        <div class="input-wrapper">
+          <i class="fas fa-home"></i>
+          <textarea id="address" name="address" placeholder="Street, city, postal code, country" autocomplete="street-address" required></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign up button + login link -->
+    <div class="actions">
+      <button type="submit" class="signup-btn">
+        <i class="fas fa-arrow-right-to-bracket"></i> Sign Up
+      </button>
+      <div class="login-link">
+        Already have an account? <a href="/api/login">Log in</a>
+      </div>
+    </div>
+
+    <!-- tiny legal note (optional) -->
+    <div class="legal-note">
+      By signing up you agree to our Terms & Privacy Policy.
+    </div>
+  </form>
+</div>
+
+<!-- simple front-end validation / demo prevention (optional) -->
+<script>
+  document.getElementById('signupForm').addEventListener('submit', function (e) {
+    const ids = ['fullname', 'username', 'email', 'password', 'mobile', 'address'];
+    const missing = ids.filter(id => !document.getElementById(id).value.trim());
+    if (missing.length > 0) {
+      e.preventDefault();
+      alert('Please fill in: ' + missing.join(', '));
+    }
+  });
+</script>
+
+</body>
+</html>
